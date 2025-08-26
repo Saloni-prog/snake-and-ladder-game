@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Function to simulate a dice roll (returns a value between 1 and 6)
+int roll_dice() {
+    return rand() % 6 + 1;
+}
+
+// Function to create the board with snakes and ladders
+void create_board(int *board) {
+    // Snakes (key is the start position, value is the end position)
+    board[16] = 6;
+    board[47] = 26;
+    board[49] = 11;
+    board[56] = 53;
+    board[62] = 19;
+    board[64] = 60;
+    board[87] = 24;
+    board[93] = 73;
+    board[95] = 75;
+    board[98] = 78;
+
+    // Ladders (key is the start position, value is the end position)
+    board[1] = 38;
+    board[4] = 14;
+    board[9] = 31;
+    board[21] = 42;
+    board[28] = 84;
+    board[36] = 44;
+    board[51] = 67;
+    board[71] = 91;
+    board[80] = 100;
+}
+
+// Main game function
+void play_game() {
+    int player_position = 1;  // Start position
+    int board[101] = {0};     // Board with 100 squares, initialized to 0
+    create_board(board);       // Setup snakes and ladders
+
+    int goal = 100;           // Winning position
+
+    printf("Welcome to Snake and Ladder!\n");
+
+    // Seed the random number generator
+    srand(time(0));
+
+    // Game loop
+    while (player_position < goal) {
+        printf("Press Enter to roll the dice...");
+        getchar();  // Wait for Enter key to roll the dice
+
+        int dice_roll = roll_dice();  // Roll the dice
+        printf("You rolled a %d\n", dice_roll);
+
+        // Move the player
+        player_position += dice_roll;
+        if (player_position > goal) {
+            player_position = goal;  // Player cannot exceed 100
+        }
+
+        printf("Your new position is %d\n", player_position);
+
+        // Check if the player landed on a snake or ladder
+        if (board[player_position] != 0) {
+            if (player_position < board[player_position]) {
+                printf("Yay! You landed on a ladder! Climbing to %d\n", board[player_position]);
+            } else {
+                printf("Oh no! You landed on a snake! Moving to %d\n", board[player_position]);
+            }
+            player_position = board[player_position];  // Update the player's position
+        }
+
+        // Check for win condition
+        if (player_position == goal) {
+            printf("Congratulations! You reached square 100 and won the game!\n");
+            break;
+        } else {
+            printf("Your current position is %d. Keep playing!\n\n", player_position);
+        }
+    }
+}
+
+// Main function to start the game
+int main() {
+    play_game();
+    return 0;
+}
