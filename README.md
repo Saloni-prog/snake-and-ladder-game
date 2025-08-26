@@ -28,7 +28,7 @@ gcc snake_ladder.c -o snake_ladder
 ./snake_ladder
 ## learning outcomes
 This project helps practice:
-Control structures in C
-Random number generation
-Functions & modular programming
-Game logic design
+-Control structures in C
+-Random number generation
+-Functions & modular programming
+-Game logic design
